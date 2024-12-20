@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Search Results for "{{ query }}"</h2>
+  <ul>
+    {% if instruments %}
+      {% for result in instruments %}
+          <li><strong>Symbol:</strong> {{ result.symbol }}<br></li>
+          <li> <strong>Name:</strong> {{ result.name }}<br></li>
+          <li><strong>Sector:</strong> {{ result.sector }}<br></li>
+          <li> <strong>Type:</strong> {{ result.type }}<br></li>
+          <li> <strong>Price:</strong> {{ result.price }}<br></li>
+          <li><strong>Description:</strong> {{ result.description }}<br></li>
+
+      {% endfor %}
+    {% else %}
+      <li>No results found.</li>
+    {% endif %}
+  </ul>
+{% endblock %}

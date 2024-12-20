@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Create Transaction</h1>
+
+<!-- Formulario de Búsqueda -->
+<form method="post">
+    {% csrf_token %}
+    {{ search_form.as_p }}
+    <button type="submit" name="search_instrument">Search Instrument</button>
+</form>
+
+<!-- Mostrar Resultados de Búsqueda -->
+{% if instruments %}
+    <h3>Search Results:</h3>
+    <ul>
+    {% for instrument in instruments %}
+        <li>
+            {{ instrument.name }} ({{ instrument.symbol }})
+            <form method="post" style="display:inline;">
+                {% csrf_token %}
+                <input type="hidden" name="selected_instrument" value="{{ instrument.symbol }}">
+                <button type="submit" name="select_instrument">Select</button>
+            </form>
+        </li>
+    {% endfor %}
+    </ul>
+{% endif %}
+
+<!-- Mostrar Instrumento Seleccionado -->
+{% if selected_instrument %}
+    <h3>Selected Instrument:</h3>
+    <p>{{ selected_instrument }}</p>
+{% endif %}
+
+<!-- Formulario de Transacción -->
+<form method="post">
+    {% csrf_token %}
+    {{ transaction_form.as_p }}
+    <button type="submit" name="create_transaction">Create Transaction</button>
+</form>
+{% endblock %}

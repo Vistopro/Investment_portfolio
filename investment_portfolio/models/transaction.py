@@ -14,7 +14,7 @@ class Transaction(models.Model):
     instrument = models.ForeignKey(FinancialInstrument, on_delete=models.CASCADE)
     transaction_type = models.CharField(max_length=4, choices=TRANSACTION_TYPE_CHOICES)
     quantity = models.DecimalField(max_digits=10, decimal_places=2)
-    price_per_unit = models.DecimalField(max_digits=10, decimal_places=2)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
     date = models.DateField()
 
     def __str__(self):

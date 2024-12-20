@@ -1,3 +1,5 @@
-from investment_portfolio.views.portfolio import PortfolioCreateView, portfolio_list, PortfolioEditView
-from .user_view import register, login_view, home
+from .portfolio_view import PortfolioCreateView, PortfolioListView, PortfolioEditView, PortfolioDeleteView
+from .user_view import RegisterView, LoginView, HomeView, LogoutView
+from .transaction_view import TransactionEditView, TransactionDeleteView, TransactionListView, TransactionCreateView
+from .financial_instrument_view import SearchFinancialInstrumentView
 

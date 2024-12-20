@@ -1,11 +1,15 @@
 {% extends 'base.html' %}
 
-{% block title %}Investment Portfolio{% endblock %}
-
 {% block content %}
 <h2>List of portfolios</h2>
 {% for portfolio in portfolios %}
-    <li><button><a href="{% url 'portfolio_edit' portfolio.pk %}">{{ portfolio.name }}</a></button></li>
+    <li>
+        <button><a href="{% url 'transaction_list'%}">{{ portfolio.name }}</a></button>
+        <button><a href="{% url 'portfolio_edit' portfolio.pk %}">Edit</a></button>
+        <button><a href="{% url 'portfolio_delete' portfolio.pk %}">Delete</a></button>
+    </li>
+
     {% endfor %}
     <button><a href="{% url 'portfolio_add' %}">Add new portfolio</a></button>
+
 {% endblock %}

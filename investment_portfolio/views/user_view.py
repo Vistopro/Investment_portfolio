@@ -1,16 +1,24 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
+from django.views import View
 
 from ..forms import CreateUserForm
 
 
-def home(request):
-    return render(request, 'home.html')
+class HomeView(View):
+    def get(self, request):
+        if request.user.is_authenticated:
+            return redirect('portfolio_list')
+        return render(request, 'home.html')
 
 
-def login_view(request):
-    if request.method == 'POST':
+class LoginView(View):
+    def get(self, request):
+        form = AuthenticationForm()
+        return render(request, 'login.html', {'form': form, 'login': True})
+
+    def post(self, request):
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
             username = form.cleaned_data.get('username')
@@ -18,19 +26,18 @@ def login_view(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('portfolio_list')  # Redirige después de iniciar sesión
+                return redirect('portfolio_list')
             else:
                 form.add_error(None, "Invalid username or password")
-        else:
-            print("Form is not valid")
-            print(form.errors)
-    else:
-        form = AuthenticationForm()
-    return render(request, 'login.html', {'form': form, 'login': True})
+        return render(request, 'login.html', {'form': form, 'login': True})
 
 
-def register(request):
-    if request.method == 'POST':
+class RegisterView(View):
+    def get(self, request):
+        form = CreateUserForm()
+        return render(request, 'register.html', {'form': form, 'register': True})
+
+    def post(self, request):
         form = CreateUserForm(request.POST)
         if form.is_valid():
             user = form.save()
@@ -39,6 +46,10 @@ def register(request):
             user = authenticate(username=user.username, password=raw_password)
             login(request, user)
             return redirect('portfolio_list')
-    else:
-        form = CreateUserForm()
-    return render(request, 'register.html', {'form': form, 'register':True})
+        return render(request, 'register.html', {'form': form, 'register': True})
+
+
+class LogoutView(View):
+    def get(self, request):
+        logout(request)
+        return redirect('home')

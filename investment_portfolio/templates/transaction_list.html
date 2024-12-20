@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>List of Transactions</h2>
+{% for transaction in transactions %}
+    <li>
+        {{ transaction.name }}
+        <button><a href="{% url 'transaction_edit' transaction.pk %}">Edit</a></button>
+        <button><a href="{% url 'transaction_delete' transaction.pk %}">Delete</a></button>
+    </li>
+
+    {% endfor %}
+    <button><a href="{% url 'transaction_add' %}">Add new transaction</a></button>
+    <button><a href="{% url 'portfolio_list' %}">Back</a></button>
+{% endblock %}

@@ -1,0 +1,21 @@
+# Byte-compiled files
+*.pyc
+*.pyo
+__pycache__/
+
+# Environment variables
+.env
+
+# SQLite database files
+**/db.sqlite3
+
+# Virtual environment
+venv/
+
+# Static and media files
+/static/
+/media/
+
+# IDE and editor settings
+*.vscode/
+.idea/
