@@ -1,5 +1,5 @@
-"""
-WSGI config for investment_manager project.
+"""manager
+WSGI config for investment_portfolio project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 

@@ -1,0 +1,16 @@
+version: '2.4'
+
+services:
+
+  server:
+    build: .
+    stdin_open: true
+    tty: true
+    entrypoint: "gunicorn investment_portfolio.wsgi --bind 0.0.0.0:8000"
+#    entrypoint: "python manage.py runserver 0.0.0.0:8000"
+    networks:
+      - default
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/src
