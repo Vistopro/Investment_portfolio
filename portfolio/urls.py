@@ -14,6 +14,8 @@ from portfolio.views import (
     LoginView,
     LogoutView
 )
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
@@ -30,3 +32,6 @@ urlpatterns = [
     path('transaction/delete/<int:pk>/', TransactionDeleteView.as_view(), name='transaction_delete'),
     path('search/', SearchFinancialInstrumentView.as_view(), name='search'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

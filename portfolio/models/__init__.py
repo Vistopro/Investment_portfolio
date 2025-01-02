@@ -1,4 +1,3 @@
-from .user import User
 from .financial_instrument import FinancialInstrument
 from .transaction import Transaction
 from .portfolio import Portfolio

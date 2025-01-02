@@ -1,6 +1,6 @@
 from django.db import models
 from portfolio.models.financial_instrument import FinancialInstrument
-from portfolio.models.user import User
+from django.contrib.auth.models import User
 from portfolio.models.portfolio import Portfolio
 
 
