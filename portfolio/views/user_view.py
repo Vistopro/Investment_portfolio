@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 from django.views import View
 
-from ..forms import CreateUserForm
+from ..forms import CreateUserForm, UserUpdateForm
 
 
 class HomeView(View):
@@ -48,6 +50,18 @@ class RegisterView(View):
             return redirect('portfolio_list')
         return render(request, 'register.html', {'form': form, 'register': True})
 
+@method_decorator(login_required, name='dispatch')
+class EditView(View):
+    def get(self, request):
+        form = UserUpdateForm(instance=request.user)
+        return render(request, 'update.html', {'form': form, 'update': True})
+
+    def post(self, request):
+        form = UserUpdateForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('portfolio_list')
+        return render(request, 'update.html', {'form': form, 'update': True})
 
 class LogoutView(View):
     def get(self, request):

@@ -15,6 +15,7 @@ venv/
 # Static and media files
 /static/
 /media/
+/staticfiles/*
 
 # IDE and editor settings
 *.vscode/
