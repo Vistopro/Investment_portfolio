@@ -4,6 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
 from portfolio.models import Portfolio
 from portfolio.forms import PortfolioForm
+from portfolio.api import listar_activos
 
 
 class PortfolioCreateView(View):
@@ -23,7 +24,8 @@ class PortfolioCreateView(View):
 class PortfolioListView(LoginRequiredMixin, View):
     def get(self, request):
         portfolios = Portfolio.objects.filter(user=request.user)
-        return render(request, 'portfolio_list.html', {'portfolios': portfolios})
+        resul = listar_activos()
+        return render(request, 'portfolio_list.html', {'portfolios': portfolios, 'resultant':resul})
 
 
 class PortfolioEditView(LoginRequiredMixin, View):

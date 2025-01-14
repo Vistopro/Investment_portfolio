@@ -5,11 +5,6 @@ from portfolio.views import (
     PortfolioListView,
     PortfolioEditView,
     PortfolioDeleteView,
-    TransactionCreateView,
-    TransactionDeleteView,
-    TransactionEditView,
-    TransactionListView,
-    SearchFinancialInstrumentView,
     HomeView,
     LoginView,
     EditView,
@@ -29,11 +24,6 @@ urlpatterns = [
     path('portfolio/add/', PortfolioCreateView.as_view(), name='portfolio_add'),
     path('portfolio/edit/<int:pk>/', PortfolioEditView.as_view(), name='portfolio_edit'),
     path('portfolio/delete/<int:pk>/', PortfolioDeleteView.as_view(), name='portfolio_delete'),
-    path('transaction/', TransactionListView.as_view(), name='transaction_list'),
-    path('transaction/add/', TransactionCreateView.as_view(), name='transaction_add'),
-    path('transaction/edit/<int:pk>/', TransactionEditView.as_view(), name='transaction_edit'),
-    path('transaction/delete/<int:pk>/', TransactionDeleteView.as_view(), name='transaction_delete'),
-    path('search/', SearchFinancialInstrumentView.as_view(), name='search'),
 ]
 
 if settings.DEBUG:
