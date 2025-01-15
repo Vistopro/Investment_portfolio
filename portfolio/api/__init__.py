@@ -1,1 +1,1 @@
-from .financial_instrument import listar_activos
+from .alpaca import get_data_active
