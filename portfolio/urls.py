@@ -8,7 +8,8 @@ from portfolio.views import (
     HomeView,
     LoginView,
     EditView,
-    LogoutView
+    LogoutView,
+    AssetSearchView,
 )
 from django.conf.urls.static import static
 from django.conf import settings
@@ -20,6 +21,7 @@ urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),
     path('edit/', EditView.as_view(), name='edit'),
     path('logout/', LogoutView.as_view(), name='logout'),
+    path('search/', AssetSearchView.as_view(), name='asset_search'),
     path('portfolio/', PortfolioListView.as_view(), name='portfolio_list'),
     path('portfolio/add/', PortfolioCreateView.as_view(), name='portfolio_add'),
     path('portfolio/edit/<int:pk>/', PortfolioEditView.as_view(), name='portfolio_edit'),

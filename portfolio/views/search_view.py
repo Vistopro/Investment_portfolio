@@ -1,9 +1,32 @@
-from django.shortcuts import render, redirect
 from django.views import View
-from portfolio.api import get_data_active
+from django.shortcuts import render
+from portfolio.api import get_data_stock, get_data_crypto, get_data_option, get_data_active
 
+class AssetSearchView(View):
+    template_name = 'asset_search.html'
 
-def asset_search_view(request):
-    symbol = request.GET.get('symbol')
-    data = get_data_active(symbol=symbol)
-    return render(request, 'asset_search_result.html', {'data': data})
+    def get(self, request):
+
+        symbol = request.GET.get('symbol', '').strip()
+        data = None
+        error = None
+
+        if symbol:
+            asset_type = get_data_active(symbol)
+
+            if asset_type == 'crypto':
+                data = get_data_crypto(symbol)
+            elif asset_type == 'stock':
+                data = get_data_stock(symbol)
+            else:
+                try:
+                    data = get_data_option(symbol)
+                except Exception as e:
+                    error = str(e)
+
+        context = {
+            'symbol': symbol,
+            'data': data,
+            'error': error,
+        }
+        return render(request, self.template_name, context)
