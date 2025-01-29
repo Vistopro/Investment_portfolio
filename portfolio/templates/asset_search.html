@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <form method="get" action="{% url 'asset_search' %}">
+        <input type="text" name="symbol" placeholder="Enter asset symbol" required>
+        <button type="submit">Search</button>
+    </form>
+
+    {% if data %}
+        <h2>Data for {{ symbol }}</h2>
+        <ul>
+            <li>Price: {{ data.price }}</li>
+            <li>Open: {{ data.open }}</li>
+            <li>High: {{ data.high }}</li>
+            <li>Low: {{ data.low }}</li>
+            <li>Volume: {{ data.volume }}</li>
+        </ul>
+    {% elif error %}
+        <p>Error: {{ error }}</p>
+    {% elif symbol %}
+        <p>No data found for "{{ symbol }}"</p>
+    {% endif %}
+{% endblock %}
