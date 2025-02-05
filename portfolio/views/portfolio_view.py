@@ -6,6 +6,7 @@ from portfolio.models import Portfolio
 from portfolio.forms import PortfolioForm
 
 
+
 class PortfolioCreateView(View):
     def get(self, request):
         return render(request, 'portfolio_form.html', {'form': PortfolioForm()})
@@ -50,3 +51,8 @@ class PortfolioDeleteView(LoginRequiredMixin, View):
         portfolio = get_object_or_404(Portfolio, id=pk, user=request.user)
         portfolio.delete()
         return redirect('portfolio_list')
+
+class PortfolioView(LoginRequiredMixin, View):
+    def get(self, request, pk):
+        portfolio = get_object_or_404(Portfolio, id=pk, user=request.user)
+        return render(request, 'portfolio_view.html', {'portfolio': portfolio})
