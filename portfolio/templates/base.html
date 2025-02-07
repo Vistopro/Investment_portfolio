@@ -21,10 +21,6 @@
                 {% endif %}
             </ul>
         </nav>
-        <form method="get" action="{% url 'search' %}" class="search-form">
-            <input type="text" name="query" placeholder="Search for instruments..." required>
-            <button type="submit">Search</button>
-        </form>
     </header>
     <main>
         {% block content %}{% endblock %}
