@@ -24,7 +24,8 @@ class PortfolioCreateView(View):
 class PortfolioListView(LoginRequiredMixin, View):
     def get(self, request):
         portfolios = Portfolio.objects.filter(user=request.user)
-        return render(request, 'portfolio_list.html', {'portfolios': portfolios})
+        request.session['last_portfolio_id'] = None
+        return render(request, 'portfolio_list.html', {'portfolios': portfolios, 'is_in_portfolio':False})
 
 
 class PortfolioEditView(LoginRequiredMixin, View):
@@ -55,4 +56,5 @@ class PortfolioDeleteView(LoginRequiredMixin, View):
 class PortfolioView(LoginRequiredMixin, View):
     def get(self, request, pk):
         portfolio = get_object_or_404(Portfolio, id=pk, user=request.user)
-        return render(request, 'portfolio_view.html', {'portfolio': portfolio})
+        request.session['last_portfolio_id'] = portfolio.pk
+        return render(request, 'portfolio_view.html', {'portfolio': portfolio, 'is_in_portfolio':True})
