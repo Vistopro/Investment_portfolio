@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>{{ portfolio.name }}</h2>
+
+<form method="get" action="{% url 'asset_search' portfolio.id %}">
+    <input type="text" name="symbol" placeholder="Enter asset symbol" required>
+    <button type="submit">Search</button>
+</form>
+
+<ul>
+    {% for transaction in portfolio.transactions.all %}
+        <li>{{ transaction.symbol }} - {{ transaction.asset_name }} ({{ transaction.quantity }} units at ${{ transaction.price }})</li>
+        <button><a href="{% url 'transaction_edit' portfolio.pk transaction.pk %}">Edit</a></button>
+        <button><a href="{% url 'transaction_delete' portfolio.pk transaction.pk %}">Delete</a></button>
+    {% empty %}
+        <p>There is no assets in your portfolio</p>
+    {% endfor %}
+</ul>
+{% endblock %}

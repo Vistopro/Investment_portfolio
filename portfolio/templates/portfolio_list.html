@@ -4,7 +4,7 @@
 <h2>List of portfolios</h2>
 {% for portfolio in portfolios %}
     <li>
-        <p>{{ portfolio.name }}</p>
+        <button><a href="{% url 'portfolio' portfolio.pk %}">{{ portfolio.name }}</a></button>
         <button><a href="{% url 'portfolio_edit' portfolio.pk %}">Edit</a></button>
         <button><a href="{% url 'portfolio_delete' portfolio.pk %}">Delete</a></button>
     </li>
