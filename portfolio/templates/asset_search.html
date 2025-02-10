@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <form method="get" action="{% url 'asset_search' %}">
+  <form method="get" action="{% url 'asset_search' portfolio.id %}">
         <input type="text" name="symbol" placeholder="Enter asset symbol" required>
         <button type="submit">Search</button>
     </form>
@@ -15,9 +15,19 @@
             <li>Low: {{ data.low }}</li>
             <li>Volume: {{ data.volume }}</li>
         </ul>
+  <form method="post" action="{% url 'asset_search' portfolio.id %}">
+    {% csrf_token %}
+      <input type="hidden" name="symbol" value="{{ symbol }}">
+      <input type="hidden" name="price" value="{{ data.price }}">
+      <label for="quantity">Quantity:</label>
+      <input type="number" name="quantity" id="quantity" required min="1" step="1">
+      <label for="date">Date:</label>
+      <input type="date" name="date" id="date" required>
+      <button type="submit">Add to Portfolio</button>
+    </form>
     {% elif error %}
-        <p>Error: {{ error }}</p>
+    <p>Error: {{ error }}</p>
     {% elif symbol %}
-        <p>No data found for "{{ symbol }}"</p>
+    <p>No data found for "{{ symbol }}"</p>
     {% endif %}
 {% endblock %}

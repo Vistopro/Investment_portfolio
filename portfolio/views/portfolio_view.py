@@ -6,6 +6,7 @@ from portfolio.models import Portfolio
 from portfolio.forms import PortfolioForm
 
 
+
 class PortfolioCreateView(View):
     def get(self, request):
         return render(request, 'portfolio_form.html', {'form': PortfolioForm()})
@@ -23,7 +24,8 @@ class PortfolioCreateView(View):
 class PortfolioListView(LoginRequiredMixin, View):
     def get(self, request):
         portfolios = Portfolio.objects.filter(user=request.user)
-        return render(request, 'portfolio_list.html', {'portfolios': portfolios})
+        request.session['last_portfolio_id'] = None
+        return render(request, 'portfolio_list.html', {'portfolios': portfolios, 'is_in_portfolio': False})
 
 
 class PortfolioEditView(LoginRequiredMixin, View):
@@ -50,3 +52,9 @@ class PortfolioDeleteView(LoginRequiredMixin, View):
         portfolio = get_object_or_404(Portfolio, id=pk, user=request.user)
         portfolio.delete()
         return redirect('portfolio_list')
+
+class PortfolioView(LoginRequiredMixin, View):
+    def get(self, request, pk):
+        portfolio = get_object_or_404(Portfolio, id=pk, user=request.user)
+        request.session['last_portfolio_id'] = portfolio.pk
+        return render(request, 'portfolio_view.html', {'portfolio': portfolio, 'is_in_portfolio': True})

@@ -54,14 +54,16 @@ class RegisterView(View):
 class EditView(View):
     def get(self, request):
         form = UserUpdateForm(instance=request.user)
-        return render(request, 'update.html', {'form': form, 'update': True})
+        previous_url = request.META.get('HTTP_REFERER', 'portfolio_list')
+        return render(request, 'update.html', {'form': form, 'update': True, 'previous_url': previous_url})
 
     def post(self, request):
         form = UserUpdateForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
-            return redirect('portfolio_list')
-        return render(request, 'update.html', {'form': form, 'update': True})
+            previous_url = request.POST.get('previous_url', 'portfolio_list')
+            return redirect(previous_url)
+        return render(request, 'update.html', {'form': form, 'update': True, 'previous_url': request.POST.get('previous_url', 'portfolio_list')})
 
 class LogoutView(View):
     def get(self, request):

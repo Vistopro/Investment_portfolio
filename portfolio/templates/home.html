@@ -3,17 +3,7 @@
 {% block content %}
     <h2>Welcome to Your Investment Portfolio</h2>
     <p>Manage and track your investments easily.</p>
-
-    {% if user.is_authenticated %}
-        <h3>Your Dashboard</h3>
-        <ul>
-            <li><a href="{% url 'portfolio_add' %}">Add a New Portfolio</a></li>
-            <li><a href="{% url 'transaction_list' %}">View Transactions</a></li>
-            <li><a href="{% url 'portfolio_list' %}">View Your Portfolios</a></li>
-        </ul>
-    {% else %}
         <h3>Get Started</h3>
         <p>If you don't have an account, <a href="{% url 'register' %}">create one</a> to start managing your investments.</p>
         <p>Already have an account? <a href="{% url 'login' %}">Log in</a> to access your dashboard.</p>
-    {% endif %}
 {% endblock %}
