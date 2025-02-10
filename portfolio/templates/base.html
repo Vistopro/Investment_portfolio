@@ -9,15 +9,7 @@
 </head>
 <body>
     <header>
-                {% if user.is_authenticated %}
-                    {% if request.session.last_portfolio_id %}
-                        <h1><a href="{% url 'portfolio' request.session.last_portfolio_id %}">Investment Portfolio Management</a></h1>
-                    {% else %}
-                        <h1><a href="{% url 'portfolio_list' %}">Investment Portfolio Management</a></h1>
-                    {% endif %}
-                {% else %}
                     <h1>Investment Portfolio Management</h1>
-                {% endif %}
         <nav>
             <ul>
                 {% if user.is_authenticated %}

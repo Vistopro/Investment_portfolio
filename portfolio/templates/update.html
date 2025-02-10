@@ -7,10 +7,6 @@
     {{ form.as_p }}
     <input type="hidden" name="previous_url" value="{{ previous_url }}">
     <button type="submit">Update</button>
-    {% if request.session.last_portfolio_id %}
-            <a href="{% url 'portfolio' request.session.last_portfolio_id %}">Cancel</a>
-    {% else %}
-            <a href="{% url 'portfolio_list' %}">Cancel</a>
-    {% endif %}
+    <a href="{{ previous_url }}">Cancel</a>
   </form>
 {% endblock %}

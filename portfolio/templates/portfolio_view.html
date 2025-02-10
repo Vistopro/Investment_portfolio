@@ -11,8 +11,8 @@
 <ul>
     {% for transaction in portfolio.transactions.all %}
         <li>{{ transaction.symbol }} - {{ transaction.asset_name }} ({{ transaction.quantity }} units at ${{ transaction.price }})</li>
-        <button><a href="{% url 'transaction_edit' portfolio.pk transaction.pk %}">Edit</a></button>
-        <button><a href="{% url 'transaction_delete' portfolio.pk transaction.pk %}">Delete</a></button>
+        <button><a href="{% url 'transaction_edit'  transaction.pk %}">Edit</a></button>
+        <button><a href="{% url 'transaction_delete' transaction.pk %}">Delete</a></button>
     {% empty %}
         <p>There is no assets in your portfolio</p>
     {% endfor %}

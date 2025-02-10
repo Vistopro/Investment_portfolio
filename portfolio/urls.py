@@ -28,8 +28,8 @@ urlpatterns = [
     path('portfolios/add/', PortfolioCreateView.as_view(), name='portfolio_add'),
     path('portfolios/edit/<int:pk>/', PortfolioEditView.as_view(), name='portfolio_edit'),
     path('portfolios/delete/<int:pk>/', PortfolioDeleteView.as_view(), name='portfolio_delete'),
-    path('portfolio/<int:pk_portfolio>/edit/<int:pk_transaction>/',TransactionEditView.as_view(), name='transaction_edit'),
-    path('portfolio/<int:pk_portfolio>/delete/<int:pk_transaction>/', TransactionDeleteView.as_view(), name='transaction_delete')
+    path('portfolio/edit/<int:pk_transaction>/',TransactionEditView.as_view(), name='transaction_edit'),
+    path('portfolio/delete/<int:pk_transaction>/', TransactionDeleteView.as_view(), name='transaction_delete')
 
 ]
 
