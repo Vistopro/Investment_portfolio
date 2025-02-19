@@ -8,7 +8,7 @@ class TransactionEditView(LoginRequiredMixin, View):
     def get(self, request, pk_transaction):
         transaction = get_object_or_404(Transaction, id=pk_transaction, user=request.user)
         form = TransactionForm(instance=transaction)
-        return render(request, 'transaction_form.html', {'form': form, 'portfolio':  transaction.portfolio})
+        return render(request, 'transaction_update.html', {'form': form, 'portfolio':  transaction.portfolio})
 
     def post(self, request, pk_transaction):
         transaction = get_object_or_404(Transaction, id=pk_transaction, user=request.user)
@@ -16,7 +16,7 @@ class TransactionEditView(LoginRequiredMixin, View):
         if form.is_valid():
             form.save()
             return redirect('portfolio', pk=transaction.portfolio.pk)
-        return render(request, 'transaction_form.html', {'form': form, 'portfolio': transaction.portfolio})
+        return render(request, 'transaction_update.html', {'form': form, 'portfolio': transaction.portfolio})
 
 class TransactionDeleteView(LoginRequiredMixin, View):
     def get(self, request, pk_transaction):

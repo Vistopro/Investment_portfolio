@@ -1,33 +1,55 @@
 {% extends 'base.html' %}
+{% load django_bootstrap5 %}
 
 {% block content %}
-  <form method="get" action="{% url 'asset_search' portfolio.id %}">
-        <input type="text" name="symbol" placeholder="Enter asset symbol" required>
-        <button type="submit">Search</button>
-    </form>
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="col-md-6">
+        <div class="card shadow-lg">
+            <div class="card-body">
+                <h2 class="text-center mb-4">Search Asset</h2>
 
-    {% if data %}
-        <h2>Data for {{ symbol }}</h2>
-        <ul>
-            <li>Price: {{ data.price }}</li>
-            <li>Open: {{ data.open }}</li>
-            <li>High: {{ data.high }}</li>
-            <li>Low: {{ data.low }}</li>
-            <li>Volume: {{ data.volume }}</li>
-        </ul>
-  <form method="post" action="{% url 'asset_search' portfolio.id %}">
-    {% csrf_token %}
-      <input type="hidden" name="symbol" value="{{ symbol }}">
-      <input type="hidden" name="price" value="{{ data.price }}">
-      <label for="quantity">Quantity:</label>
-      <input type="number" name="quantity" id="quantity" required min="1" step="1">
-      <label for="date">Date:</label>
-      <input type="date" name="date" id="date" required>
-      <button type="submit">Add to Portfolio</button>
-    </form>
-    {% elif error %}
-    <p>Error: {{ error }}</p>
-    {% elif symbol %}
-    <p>No data found for "{{ symbol }}"</p>
-    {% endif %}
+                <form method="get" action="{% url 'asset_search' portfolio.id %}" class="d-flex">
+                    <input type="text" name="symbol" class="form-control me-2" placeholder="Enter asset symbol" required>
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </form>
+
+                {% if data %}
+                    <div class="mt-4">
+                        <h3 class="text-center">Data for {{ symbol }}</h3>
+                        <ul class="list-group">
+                            <li class="list-group-item"><strong>Price:</strong> {{ data.price }}</li>
+                            <li class="list-group-item"><strong>Open:</strong> {{ data.open }}</li>
+                            <li class="list-group-item"><strong>High:</strong> {{ data.high }}</li>
+                            <li class="list-group-item"><strong>Low:</strong> {{ data.low }}</li>
+                            <li class="list-group-item"><strong>Volume:</strong> {{ data.volume }}</li>
+                        </ul>
+                    </div>
+
+                    <form method="post" action="{% url 'asset_search' portfolio.id %}" class="mt-4">
+                        {% csrf_token %}
+                        <input type="hidden" name="symbol" value="{{ symbol }}">
+                        <input type="hidden" name="price" value="{{ data.price }}">
+
+                        <div class="mb-3">
+                            <label for="quantity" class="form-label">Quantity:</label>
+                            <input type="number" name="quantity" id="quantity" class="form-control" required min="1" step="1">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="date" class="form-label">Date:</label>
+                            <input type="date" name="date" id="date" class="form-control" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-success w-100">Add to Portfolio</button>
+                    </form>
+
+                {% elif error %}
+                    <div class="alert alert-danger mt-4 text-center">{{ error }}</div>
+                {% elif symbol %}
+                    <div class="alert alert-warning mt-4 text-center">No data found for "{{ symbol }}"</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
