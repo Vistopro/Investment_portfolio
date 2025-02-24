@@ -9,7 +9,7 @@ from portfolio.forms import PortfolioForm
 
 class PortfolioCreateView(View):
     def get(self, request):
-        return render(request, 'portfolio_form.html', {'form': PortfolioForm()})
+        return render(request, 'portfolio_form.html', {'form': PortfolioForm(),'is_edit': False})
 
     def post(self, request, *args, **kwargs):
         form = PortfolioForm(data=request.POST)
@@ -18,7 +18,7 @@ class PortfolioCreateView(View):
             portfolio.user = request.user
             portfolio.save()
             return redirect('portfolio_list')
-        return render(request, 'portfolio_form.html', {'form': form})
+        return render(request, 'portfolio_form.html', {'form': form,'is_edit': False})
 
 
 class PortfolioListView(LoginRequiredMixin, View):
@@ -32,7 +32,7 @@ class PortfolioEditView(LoginRequiredMixin, View):
     def get(self, request, pk):
         portfolio = get_object_or_404(Portfolio, id=pk, user=request.user)
         form = PortfolioForm(instance=portfolio)
-        return render(request, 'portfolio_form.html', {'form': form})
+        return render(request, 'portfolio_form.html', {'form': form,'is_edit': True})
 
     def post(self, request, pk):
         portfolio = get_object_or_404(Portfolio, id=pk, user=request.user)
@@ -40,7 +40,7 @@ class PortfolioEditView(LoginRequiredMixin, View):
         if form.is_valid():
             form.save()
             return redirect('portfolio_list')
-        return render(request, 'portfolio_form.html', {'form': form})
+        return render(request, 'portfolio_form.html', {'form': form,'is_edit': True})
 
 
 class PortfolioDeleteView(LoginRequiredMixin, View):
