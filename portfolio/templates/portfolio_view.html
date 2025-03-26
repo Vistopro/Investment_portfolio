@@ -9,9 +9,10 @@
                 <h2 class="text-center mb-4">{{ portfolio.name }}</h2>
 
                 <form method="get" action="{% url 'asset_search' portfolio.id %}" class="d-flex mb-4">
-                    <input type="text" name="symbol" class="form-control me-2" placeholder="Enter asset symbol" required>
+                    <input type="text" id="symbolInput" name='symbol' class="form-control me-2"  placeholder="Enter asset symbol" required autocomplete="off" data-portfolio-id="{{ portfolio.id }}">
                     <button type="submit" class="btn btn-primary">Search</button>
                 </form>
+                        <div id="autocomplete-results" class="list-group position-absolute w-100" style="z-index: 9999; display: none;"></div>
 
                 <div class="table-responsive">
                     <table class="table table-striped text-center">
@@ -21,6 +22,7 @@
                                 <th>Asset Name</th>
                                 <th>Quantity</th>
                                 <th>Price</th>
+                                <th>Commission</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -31,6 +33,7 @@
                                     <td>{{ transaction.asset_name }}</td>
                                     <td>{{ transaction.quantity }}</td>
                                     <td>${{ transaction.price }}</td>
+                                    <td>${{ transaction.commission }}</td>
                                     <td>
                                         <a href="{% url 'transaction_edit' transaction.pk %}" class="btn btn-warning btn-sm">Edit</a>
                                         <a href="{% url 'transaction_delete' transaction.pk %}" class="btn btn-danger btn-sm">Delete</a>
@@ -49,4 +52,8 @@
         </div>
     </div>
 </div>
+{% load static %}
+{% block extra_js %}
+<script src="{% static 'js/autocomplete.js' %}"></script>
+{% endblock %}
 {% endblock %}

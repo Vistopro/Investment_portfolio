@@ -14,6 +14,7 @@ venv/
 
 # Static and media files
 /static/
+!static/js/
 /media/
 /staticfiles/*
 
