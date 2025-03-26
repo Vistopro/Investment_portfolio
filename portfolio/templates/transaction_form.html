@@ -7,7 +7,7 @@
         <div class="card shadow-lg">
             <div class="card-body">
                 <h2 class="text-center mb-6">
-                    {% if is_edit %} Edit Portfolio {% else %} Create Portfolio {% endif %}
+                    {% if is_edit %} Edit Transaction {% else %} Create Transaction {% endif %}
                 </h2>
                 <form method="post">
                     {% csrf_token %}
@@ -21,7 +21,7 @@
 
                     <div class="text-center">
                         <button type="submit" class="btn btn-success w-100">{% if is_edit %} Update {% else %} Create {% endif %}</button>
-                        <a href="{% url 'portfolio_list' %}" class="btn btn-outline-secondary w-100 mt-2">Cancel</a>
+                        <a href="{% url 'portfolio' portfolio.pk %}" class="btn btn-outline-secondary w-100 mt-2">Cancel</a>
                     </div>
                 </form>
             </div>

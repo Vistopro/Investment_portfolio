@@ -10,6 +10,7 @@ from portfolio.views import(PortfolioCreateView,
                             LogoutView,
                             AssetSearchView,
                             PortfolioView,
+                            TransactionCreateView,
                             TransactionEditView,
                             TransactionDeleteView)
 from django.conf.urls.static import static
@@ -28,8 +29,9 @@ urlpatterns = [
     path('portfolios/add/', PortfolioCreateView.as_view(), name='portfolio_add'),
     path('portfolios/edit/<int:pk>/', PortfolioEditView.as_view(), name='portfolio_edit'),
     path('portfolios/delete/<int:pk>/', PortfolioDeleteView.as_view(), name='portfolio_delete'),
-    path('portfolio/edit/<int:pk_transaction>/',TransactionEditView.as_view(), name='transaction_edit'),
-    path('portfolio/delete/<int:pk_transaction>/', TransactionDeleteView.as_view(), name='transaction_delete')
+    path('transaction/edit/<int:pk_transaction>/',TransactionEditView.as_view(), name='transaction_edit'),
+    path('transaction/delete/<int:pk_transaction>/', TransactionDeleteView.as_view(), name='transaction_delete'),
+    path('portfolio/<int:pk_portfolio>/add/', TransactionCreateView.as_view(), name='transaction_add'),
 
 ]
 

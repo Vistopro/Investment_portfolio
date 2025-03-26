@@ -5,6 +5,6 @@ from .portfolio_view import (PortfolioCreateView,
                              PortfolioView,)
 from .user_view import RegisterView, LoginView, HomeView, EditView, LogoutView
 from .search_view import AssetSearchView
-from .transaction_view import TransactionEditView, TransactionDeleteView
+from .transaction_view import TransactionCreateView, TransactionEditView, TransactionDeleteView
 
 

@@ -13,8 +13,9 @@ class Transaction(models.Model):
     asset_name = models.CharField(max_length=100)
     symbol = models.CharField(max_length=10)
     transaction_type = models.CharField(max_length=4, choices=TRANSACTION_TYPE_CHOICES)
-    quantity = models.DecimalField(max_digits=10, decimal_places=2)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    quantity = models.DecimalField(max_digits=10, decimal_places=0, null=True, blank=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    commission = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, default=0)
     date = models.DateField()
 
     objects = models.Manager()

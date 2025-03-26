@@ -2,54 +2,76 @@
 {% load django_bootstrap5 %}
 
 {% block content %}
-<div class="container d-flex justify-content-center align-items-center min-vh-100">
-    <div class="col-md-6">
-        <div class="card shadow-lg">
-            <div class="card-body">
-                <h2 class="text-center mb-4">Search Asset</h2>
+<div class="container-fluid mt-4">
+    <div class="row">
 
-                <form method="get" action="{% url 'asset_search' portfolio.id %}" class="d-flex">
-                    <input type="text" name="symbol" class="form-control me-2" placeholder="Enter asset symbol" required>
-                    <button type="submit" class="btn btn-primary">Search</button>
-                </form>
+    <form method="get" action="{% url 'asset_search' portfolio.id %}" class="d-flex mb-3 position-relative">
+        <input type="text" id="symbolInput" name="symbol" class="form-control form-control-sm me-2 w-25" placeholder="Enter symbol" required autocomplete="off"
+            data-portfolio-id="{{ portfolio.id }}">
+        <button type="submit" class="btn btn-primary btn-sm">Search</button>
+    </form>
 
-                {% if data %}
-                    <div class="mt-4">
-                        <h3 class="text-center">Data for {{ symbol }}</h3>
-                        <ul class="list-group">
-                            <li class="list-group-item"><strong>Price:</strong> {{ data.price }}</li>
-                            <li class="list-group-item"><strong>Open:</strong> {{ data.open }}</li>
-                            <li class="list-group-item"><strong>High:</strong> {{ data.high }}</li>
-                            <li class="list-group-item"><strong>Low:</strong> {{ data.low }}</li>
-                            <li class="list-group-item"><strong>Volume:</strong> {{ data.volume }}</li>
-                        </ul>
+<div id="autocomplete-results" class="list-group position-absolute w-100" style="z-index: 99999; display: none;"></div>
+
+        <div class="col-md-9 d-flex flex-column">
+            <div class="card flex-grow-1">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Market Data for {{ symbol }}</h5>
+                    <select id="chartType" class="form-select form-select-sm w-auto">
+                        <option value="line" selected>Line Chart</option>
+                        <option value="bar">Bar Chart</option>
+                        <option value="candlestick">Candlestick</option>
+                    </select>
+                    <select id="datefilter" class="form-select form-select-sm w-auto">
+                        <option value="one-year" selected>1y</option>
+                        <option value="three-month">3m</option>
+                        <option value="one-month">1m</option>
+                        <option value="one-week">1w</option>
+                        <option value="one-day">1d</option>
+                    </select>
+                </div>
+                <div class="card-body p-2 d-flex justify-content-center">
+                    <div id="marketChartContainer" class="w-100 position-relative" style="height: 450px; max-height: 80vh; overflow: hidden;">
+                        <div id="marketChart" class="w-100 h-100"></div>
                     </div>
+                </div>
+            </div>
+        </div>
 
-                    <form method="post" action="{% url 'asset_search' portfolio.id %}" class="mt-4">
-                        {% csrf_token %}
-                        <input type="hidden" name="symbol" value="{{ symbol }}">
-                        <input type="hidden" name="price" value="{{ data.price }}">
 
-                        <div class="mb-3">
-                            <label for="quantity" class="form-label">Quantity:</label>
-                            <input type="number" name="quantity" id="quantity" class="form-control" required min="1" step="1">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="date" class="form-label">Date:</label>
-                            <input type="date" name="date" id="date" class="form-control" required>
-                        </div>
-
-                        <button type="submit" class="btn btn-success w-100">Add to Portfolio</button>
-                    </form>
-
-                {% elif error %}
-                    <div class="alert alert-danger mt-4 text-center">{{ error }}</div>
-                {% elif symbol %}
-                    <div class="alert alert-warning mt-4 text-center">No data found for "{{ symbol }}"</div>
-                {% endif %}
+        <div class="col-md-3 d-flex flex-column">
+            <div class="card flex-grow-1">
+                <div class="card-header">
+                    <h5 class="mb-0">Asset Info</h5>
+                </div>
+                <div class="card-body p-2">
+                    <h6 class="text-center mb-2">{{ asset_name }}</h6>
+                    <ul class="list-group small-text">
+                        <li class="list-group-item p-1"><strong>Price:</strong> {{ last_price }}</li>
+                        <li class="list-group-item p-1"><strong>Open:</strong> {{ data.open }}</li>
+                        <li class="list-group-item p-1"><strong>Close:</strong> {{ data.close }}</li>
+                        <li class="list-group-item p-1"><strong>High:</strong> {{ data.high }}</li>
+                        <li class="list-group-item p-1"><strong>Low:</strong> {{ data.low }}</li>
+                        <li class="list-group-item p-1"><strong>Volume:</strong> {{ data.volume }}</li>
+                    </ul>
+                    <div class="mt-2">
+                        <a href="{% url 'transaction_add' portfolio.id %}?symbol={{ symbol }}" class="btn btn-success w-100 btn-sm">Add</a>
+                        <a href="{% url 'portfolio' portfolio.pk %}" class="btn btn-outline-secondary w-100 btn-sm mt-2">Cancel</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+{% load static %}
+
+{% block extra_js %}
+<script src="https://unpkg.com/lightweight-charts@4.1.0/dist/lightweight-charts.standalone.production.js"></script>
+{% if chart %}
+<script src="{% static 'js/market_chart.js' %}"></script>
+<script id="chart-data" type="application/json">{{ chart|safe }}</script>
+{% endif %}
+<script src="{% static 'js/autocomplete.js' %}"></script>
+{% endblock %}
 {% endblock %}
